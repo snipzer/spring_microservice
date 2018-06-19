@@ -14,13 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping(path = "/")
 public class UserController {
 
     private UserService userService;
 
-    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
