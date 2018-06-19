@@ -29,7 +29,7 @@ public class TrackingStep {
         this.id = id;
     }
 
-    @Column(name = "date")
+    @Column
     public Date getDate() {
         return date;
     }
@@ -38,7 +38,7 @@ public class TrackingStep {
         this.date = date;
     }
 
-    @Column(name = "lieu")
+    @Column
     public String getLieu() {
         return lieu;
     }
@@ -47,7 +47,7 @@ public class TrackingStep {
         this.lieu = lieu;
     }
 
-    @Column(name = "etat")
+    @Column
     public Long getEtat() {
         return etat;
     }

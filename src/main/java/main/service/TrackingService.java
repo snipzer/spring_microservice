@@ -10,4 +10,6 @@ public class TrackingService extends BaseService<ITrackingDao, Tracking> {
     TrackingService(ITrackingDao iTrackingDao) {
         super(iTrackingDao);
     }
+
+
 }

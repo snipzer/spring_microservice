@@ -25,7 +25,7 @@ public class Tracking {
         this.id = id;
     }
 
-    @Column(name = "number")
+    @Column
     public String getNumber() {
         return number;
     }

@@ -5,11 +5,11 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseService<T extends CrudRepository<C, Long>, C> {
+public abstract class BaseService<T extends CrudRepository<C, Long>, C> {
 
     private T dao;
 
-    protected BaseService(T dao) {
+    BaseService(T dao) {
         this.dao = dao;
     }
 
