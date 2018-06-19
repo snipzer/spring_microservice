@@ -1,16 +1,13 @@
 package main.controller;
 
 import main.dto.UserDto;
-import main.entity.User;
+import main.entity.Tracking;
 import main.service.UserService;
 import main.util.DtoUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,9 +22,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> createUser(@ModelAttribute User user) {
+    public ResponseEntity<Tracking> createUser(@ModelAttribute Tracking tracking) {
         // TODO Encrypter le mot de passe
-        return new ResponseEntity<>(this.userService.save(user), HttpStatus.OK);
+        return new ResponseEntity<>(this.userService.save(tracking), HttpStatus.OK);
     }
 
     @PostMapping("/login")
@@ -37,7 +34,7 @@ public class UserController {
 
     @PostMapping("/user")
     public ResponseEntity<UserDto> getUser(@RequestParam Long id) {
-        Optional<User> user = this.userService.findById(id);
+        Optional<Tracking> user = this.userService.findById(id);
         UserDto userDto = new UserDto(user.orElse(null));
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
@@ -48,8 +45,8 @@ public class UserController {
     }
 
     @PostMapping("/user/update")
-    public ResponseEntity<UserDto> updateUser(@ModelAttribute User user) {
-        return new ResponseEntity<>(new UserDto(this.userService.updateEntity(user)), HttpStatus.OK);
+    public ResponseEntity<UserDto> updateUser(@ModelAttribute Tracking tracking) {
+        return new ResponseEntity<>(new UserDto(this.userService.updateEntity(tracking)), HttpStatus.OK);
     }
 
     @PostMapping("/user/delete")

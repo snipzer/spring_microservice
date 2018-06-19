@@ -1,14 +1,14 @@
 package main.dao;
 
-import main.entity.User;
+import main.entity.Tracking;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 
-public interface IUserDao extends CrudRepository<User, Long> {
+public interface IUserDao extends CrudRepository<Tracking, Long> {
 
-    List<User> findByLastname(String lastname);
+    List<Tracking> findByLastname(String lastname);
 
-    User getByEmail(String email);
+    Tracking getByEmail(String email);
 }

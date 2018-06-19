@@ -2,22 +2,21 @@ package main.service;
 
 
 import main.dao.IUserDao;
-import main.entity.User;
+import main.entity.Tracking;
 import main.enumeration.Role;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService extends BaseService<IUserDao, User> {
+public class UserService extends BaseService<IUserDao, Tracking> {
     public UserService(IUserDao IUserDao) {
         super(IUserDao);
     }
 
-    public List<User> findByLastname(String lastName) {
-        User user = new User();
-        Role.getRoleById(user.getRole());
+    public List<Tracking> findByLastname(String lastName) {
+        Tracking tracking = new Tracking();
+        Role.getRoleById(tracking.getRole());
 
         return this.getDao().findByLastname(lastName);
     }
