@@ -1,2 +1,5 @@
 .idea
 target
+.setting
+.settings
+application.properties
