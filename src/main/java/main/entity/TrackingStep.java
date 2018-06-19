@@ -3,6 +3,7 @@ package main.entity;
 import javax.persistence.*;
 import java.util.Date;
 
+@Entity(name="tracking_step")
 public class TrackingStep {
 
     private Long id;

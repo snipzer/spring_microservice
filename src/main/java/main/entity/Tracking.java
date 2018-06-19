@@ -34,8 +34,7 @@ public class Tracking {
         this.number = number;
     }
 
-    @OneToMany(mappedBy = "trackingStep")
-    @JoinColumn(name = "trackingStep", nullable = false)
+    @OneToMany
     public List<TrackingStep> getTrackingSteps() {
         return trackingSteps;
     }
