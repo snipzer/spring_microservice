@@ -2,4 +2,6 @@
 target
 .setting
 .settings
+.project
+.classpath
 application.properties
