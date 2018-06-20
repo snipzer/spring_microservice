@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 
 public class RabitMqConnector {
 
-    private static final String topicExchangeName = "spring-boot-exchange";
+    public static final String topicExchangeName = "spring-boot-exchange";
 
     private static final String queueName = "spring-boot";
 

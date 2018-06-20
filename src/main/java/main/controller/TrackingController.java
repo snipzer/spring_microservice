@@ -1,8 +1,10 @@
 package main.controller;
 
+import main.core.rabbit.RabitMqConnector;
 import main.entity.Tracking;
 import main.service.TrackingService;
 import main.util.ErrorUtil;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,14 +17,17 @@ import java.util.Optional;
 @RequestMapping(path = "/")
 public class TrackingController {
 
+    private final RabbitTemplate rabbitTemplate;
     private TrackingService trackingService;
 
-    public TrackingController(TrackingService trackingService) {
+    public TrackingController(TrackingService trackingService, RabbitTemplate rabbitTemplate) {
         this.trackingService = trackingService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping("/tracking")
     public ResponseEntity<List<Tracking>> getTrackings() {
+        rabbitTemplate.convertAndSend(RabitMqConnector.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ!");
         return new ResponseEntity<>(this.trackingService.findAll(), HttpStatus.OK);
     }
 
