@@ -1,6 +1,5 @@
 package main.service;
 
-import main.core.rabbit.RabitMqConnector;
 import main.dao.ITrackingDao;
 import main.entity.Tracking;
 import main.entity.TrackingStep;
@@ -13,7 +12,6 @@ import java.util.Optional;
 
 @Service
 public class TrackingService extends BaseService<ITrackingDao, Tracking> {
-
 
 
     private final RabbitTemplate rabbitTemplate;
@@ -31,16 +29,24 @@ public class TrackingService extends BaseService<ITrackingDao, Tracking> {
 
     public Tracking addStep(Long idTracking, TrackingStep trackingStep) {
         Optional<Tracking> trackingOpt = this.findById(idTracking);
-        if(trackingOpt.isPresent()) {
-            Tracking tracking = trackingOpt.get();
-            trackingStep.setTracking(tracking);
-            tracking.getTrackingSteps().add(this.trackingStepService.save(trackingStep));
-            tracking = this.save(tracking);
-            rabbitTemplate.convertAndSend(this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE), this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_QUEUE_NAME), createPayload(tracking));
+        if (trackingOpt.isPresent()) {
+            Tracking tracking = removeAndSaveTrackingStep(trackingStep, trackingOpt.get());
+            rabbitTemplate.convertAndSend(
+                    this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE),
+                    this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_QUEUE_NAME),
+                    createPayload(tracking)
+            );
             return tracking;
         } else {
             return null;
         }
+    }
+
+    private Tracking removeAndSaveTrackingStep(TrackingStep trackingStep, Tracking tracking) {
+        trackingStep.setTracking(tracking);
+        tracking.getTrackingSteps().add(this.trackingStepService.save(trackingStep));
+        tracking = this.save(tracking);
+        return tracking;
     }
 
     private String createPayload(Tracking tracking) {
@@ -57,7 +63,7 @@ public class TrackingService extends BaseService<ITrackingDao, Tracking> {
 
     public Tracking removeStep(Long idTracking, Long idStep) {
         Optional<Tracking> trackingOpt = this.findById(idTracking);
-        if(trackingOpt.isPresent()) {
+        if (trackingOpt.isPresent()) {
             Tracking tracking = trackingOpt.get();
             TrackingStep trackingStep = tracking.retrieveStepById(idStep);
             tracking.getTrackingSteps().remove(trackingStep);

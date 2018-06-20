@@ -48,7 +48,7 @@ public class TrackingController {
         return new ResponseEntity<>(this.trackingService.updateEntity(tracking), HttpStatus.OK);
     }
 
-    // TODO Améliorer
+    // TODO Ne pas renvoyer true dans tout les cas
     @DeleteMapping("/tracking/{trackingId}")
     public ResponseEntity<Boolean> deleteTrackingById(@PathVariable(value = "trackingId") Long id) {
         this.trackingService.deleteById(id);
