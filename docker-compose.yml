@@ -1,5 +1,14 @@
-rabbitmq:
-  image: rabbitmq:management
-  ports:
-    - "5672:5672"
-    - "15672:15672"
+version: '2'
+
+services:
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: spring_microservice
+      MYSQL_PASSWORD: root
