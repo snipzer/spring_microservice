@@ -8,8 +8,6 @@ public class TrackingStep {
 
     private Long id;
 
-    private Date date;
-
     private String lieu;
 
     private Long etat;
@@ -27,15 +25,6 @@ public class TrackingStep {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Column
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     @Column

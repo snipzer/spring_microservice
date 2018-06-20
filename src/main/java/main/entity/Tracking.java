@@ -1,6 +1,7 @@
 package main.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -8,11 +9,16 @@ import java.util.List;
 public class Tracking {
     private Long id;
 
-    private String number;
+    private String userId;
+
+    private String productId;
+
+    private String name;
 
     private List<TrackingStep> trackingSteps;
 
     public Tracking() {
+        trackingSteps = new ArrayList<>();
     }
 
     @Id
@@ -26,12 +32,30 @@ public class Tracking {
     }
 
     @Column
-    public String getNumber() {
-        return number;
+    public String getUserId() {
+        return this.userId;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Column
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Column
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     @OneToMany
@@ -41,5 +65,10 @@ public class Tracking {
 
     public void setTrackingSteps(List<TrackingStep> trackingSteps) {
         this.trackingSteps = trackingSteps;
+    }
+
+    @Transient
+    public TrackingStep getLastStep() {
+        return this.trackingSteps.get(this.trackingSteps.size() - 1);
     }
 }
