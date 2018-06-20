@@ -58,7 +58,7 @@ public class Tracking {
         this.productId = productId;
     }
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     public List<TrackingStep> getTrackingSteps() {
         return trackingSteps;
     }
@@ -73,14 +73,12 @@ public class Tracking {
     }
 
     @Transient
-    public Boolean removeStepById(Long idStep) {
-        int initialSize = trackingSteps.size();
-        for(TrackingStep step : trackingSteps) {
-            if(step.getId().equals(idStep)) {
-                trackingSteps.remove(step);
+    public TrackingStep retrieveStepById(Long idStep) {
+        for (TrackingStep step : trackingSteps) {
+            if (step.getId().equals(idStep)) {
+                return step;
             }
         }
-        int finalSize = trackingSteps.size();
-        return (finalSize < initialSize);
+        return null;
     }
 }

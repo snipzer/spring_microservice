@@ -52,7 +52,7 @@ public class TrackingController {
     @DeleteMapping("/tracking/{trackingId}")
     public ResponseEntity<Boolean> deleteTrackingById(@PathVariable(value = "trackingId") Long id) {
         this.trackingService.deleteById(id);
-        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @PostMapping("/tracking/{trackingId}/step")
@@ -60,8 +60,8 @@ public class TrackingController {
         return new ResponseEntity<>(this.trackingService.addStep(id, trackingStep), HttpStatus.OK);
     }
 
-    @DeleteMapping("/tracking/{trackingId}/step")
-    public ResponseEntity<Boolean> removeTrackingStep(@PathVariable(value = "trackingId") Long idTracking, @RequestBody Long idStep) {
+    @DeleteMapping("/tracking/{trackingId}/step/{stepId}")
+    public ResponseEntity<Tracking> removeTrackingStep(@PathVariable(value = "trackingId") Long idTracking, @PathVariable(value = "stepId") Long idStep) {
         return new ResponseEntity<>(this.trackingService.removeStep(idTracking, idStep), HttpStatus.OK);
     }
 }
