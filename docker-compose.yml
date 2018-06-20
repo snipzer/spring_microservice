@@ -12,3 +12,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: spring_microservice
       MYSQL_PASSWORD: root
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+     - "5672:5672"
+     - "15672:15672"
