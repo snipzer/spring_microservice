@@ -4,3 +4,13 @@ spring.datasource.username=root
 spring.datasource.password=
 spring.datasource.driver-class-name=com.mysql.jdbc.Driver
 spring.jpa.show-sql = true
+
+spring.application.name=suivi
+
+
+spring.rabbitmq.template.exchange=spring-micro-exchange-suivi
+spring.rabbitmq.template.queue-name=spring-micro-suivi
+spring.rabbitmq.template.routing-key=spring.micro.#
+spring.rabbitmq.host=localhost
+spring.rabbitmq.password=guest
+spring.rabbitmq.port=5672
