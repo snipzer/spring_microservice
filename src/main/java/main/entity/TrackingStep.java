@@ -3,9 +3,8 @@ package main.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
 
-@Entity(name="tracking_step")
+@Entity(name = "tracking_step")
 public class TrackingStep {
 
     private Long id;

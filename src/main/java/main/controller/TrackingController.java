@@ -1,6 +1,5 @@
 package main.controller;
 
-import main.core.rabbit.RabitMqConnector;
 import main.entity.Tracking;
 import main.entity.TrackingStep;
 import main.service.TrackingService;
@@ -57,7 +56,7 @@ public class TrackingController {
     }
 
     @PostMapping("/tracking/{trackingId}/step")
-    public ResponseEntity<Tracking> addTrackingStep(@PathVariable(value="trackingId") Long id, @ModelAttribute TrackingStep trackingStep) {
+    public ResponseEntity<Tracking> addTrackingStep(@PathVariable(value = "trackingId") Long id, @ModelAttribute TrackingStep trackingStep) {
         return new ResponseEntity<>(this.trackingService.addStep(id, trackingStep), HttpStatus.OK);
     }
 
