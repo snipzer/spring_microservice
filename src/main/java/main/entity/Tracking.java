@@ -71,4 +71,16 @@ public class Tracking {
     public TrackingStep getLastStep() {
         return this.trackingSteps.get(this.trackingSteps.size() - 1);
     }
+
+    @Transient
+    public Boolean removeStepById(Long idStep) {
+        int initialSize = trackingSteps.size();
+        for(TrackingStep step : trackingSteps) {
+            if(step.getId().equals(idStep)) {
+                trackingSteps.remove(step);
+            }
+        }
+        int finalSize = trackingSteps.size();
+        return (finalSize < initialSize);
+    }
 }

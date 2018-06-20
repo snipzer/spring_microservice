@@ -5,6 +5,7 @@ import main.dao.ITrackingDao;
 import main.entity.Tracking;
 import main.entity.TrackingStep;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -42,5 +43,15 @@ public class TrackingService extends BaseService<ITrackingDao, Tracking> {
         payloadBuilder.append("\"commandName\": \"").append(tracking.getName()).append("\",");
         payloadBuilder.append("}}");
         return payloadBuilder.toString();
+    }
+
+    public Boolean removeStep(Long idTracking, Long idStep) {
+        Optional<Tracking> trackingOpt = this.findById(idTracking);
+        if(trackingOpt.isPresent()) {
+            Tracking tracking = trackingOpt.get();
+            return tracking.removeStepById(idStep);
+        } else {
+            return null;
+        }
     }
 }

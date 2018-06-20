@@ -56,8 +56,13 @@ public class TrackingController {
         return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
 
-    @PostMapping("/tracking/{trackingId}/step/add")
+    @PostMapping("/tracking/{trackingId}/step")
     public ResponseEntity<Tracking> addTrackingStep(@PathVariable(value="trackingId") Long id, @ModelAttribute TrackingStep trackingStep) {
         return new ResponseEntity<>(this.trackingService.addStep(id, trackingStep), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/tracking/{trackingId}/step")
+    public ResponseEntity<Boolean> removeTrackingStep(@PathVariable(value = "trackingId") Long idTracking, @RequestBody Long idStep) {
+        return new ResponseEntity<>(this.trackingService.removeStep(idTracking, idStep), HttpStatus.OK);
     }
 }
