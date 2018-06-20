@@ -68,7 +68,7 @@ public class Tracking {
     }
 
     @Transient
-    public TrackingStep getLastStep() {
+    public TrackingStep retrieveLastStep() {
         return this.trackingSteps.get(this.trackingSteps.size() - 1);
     }
 

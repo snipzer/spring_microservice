@@ -5,7 +5,6 @@ import main.dao.ITrackingDao;
 import main.entity.Tracking;
 import main.entity.TrackingStep;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,16 +14,20 @@ public class TrackingService extends BaseService<ITrackingDao, Tracking> {
 
     private final RabbitTemplate rabbitTemplate;
 
-    TrackingService(ITrackingDao iTrackingDao, RabbitTemplate rabbitTemplate) {
+    private final TrackingStepService trackingStepService;
+
+    TrackingService(ITrackingDao iTrackingDao, RabbitTemplate rabbitTemplate, TrackingStepService trackingStepService) {
         super(iTrackingDao);
         this.rabbitTemplate = rabbitTemplate;
+        this.trackingStepService = trackingStepService;
     }
 
     public Tracking addStep(Long idTracking, TrackingStep trackingStep) {
         Optional<Tracking> trackingOpt = this.findById(idTracking);
         if(trackingOpt.isPresent()) {
             Tracking tracking = trackingOpt.get();
-            tracking.getTrackingSteps().add(trackingStep);
+            trackingStep.setTracking(tracking);
+            tracking.getTrackingSteps().add(this.trackingStepService.save(trackingStep));
             tracking = this.save(tracking);
             rabbitTemplate.convertAndSend(RabitMqConnector.topicExchangeName, "foo.bar.baz", createPayload(tracking));
             return tracking;
@@ -38,7 +41,7 @@ public class TrackingService extends BaseService<ITrackingDao, Tracking> {
         payloadBuilder.append("{\"user\": {\"id\": \"");
         payloadBuilder.append(tracking.getUserId());
         payloadBuilder.append("\"}, \"tracking\": { ");
-        payloadBuilder.append("\"location\": \"").append(tracking.getLastStep().getLieu()).append("\",");
+        payloadBuilder.append("\"location\": \"").append(tracking.retrieveLastStep().getLieu()).append("\",");
         payloadBuilder.append("\"productId\": \"").append(tracking.getProductId()).append("\",");
         payloadBuilder.append("\"commandName\": \"").append(tracking.getName()).append("\",");
         payloadBuilder.append("}}");
