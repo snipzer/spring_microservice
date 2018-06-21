@@ -47,7 +47,7 @@ public class TrackingStep {
     }
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "tracking", nullable = false)
     public Tracking getTracking() {
         return tracking;

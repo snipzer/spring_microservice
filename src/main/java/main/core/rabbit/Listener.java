@@ -54,41 +54,20 @@ public class Listener {
         tracking.getTrackingSteps().add(trackingStep);
 
         trackingStepService.save(trackingStep);
-
         trackingService.save(tracking);
 
         System.out.println("A new tracking is created : " + tracking);
 
-//        Tracking tracking = removeAndSaveTrackingStep(trackingStep, trackingOpt.get());
 
-//        rabbitTemplate.convertAndSend(
-//                this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE),
-//                this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EMITER_QUEUE_NAME),
-//                createPayload(tracking)
-//        );
+        rabbitTemplate.convertAndSend(
+                this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE),
+                this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EMITER_QUEUE_NAME),
+                this.trackingService.createPayload(trackingTmp)
+        );
     }
 
     @RabbitListener(queues = "spring-micro-suivi-out")
     public void receiveMessageOut(final Message message) {
         System.out.println("Received message as generic: " +  new String (message.getBody()));
-    }
-
-    private String createPayload(Tracking tracking) {
-        StringBuilder payloadBuilder = new StringBuilder();
-        payloadBuilder.append("{\"user\": {\"id\": \"");
-        payloadBuilder.append(tracking.getUserId());
-        payloadBuilder.append("\"}, \"tracking\": { ");
-        payloadBuilder.append("\"location\": \"").append(tracking.retrieveLastStep().getLieu()).append("\",");
-        payloadBuilder.append("\"productId\": \"").append(tracking.getProductId()).append("\",");
-        payloadBuilder.append("\"commandName\": \"").append(tracking.getName()).append("\"");
-        payloadBuilder.append("}}");
-        return payloadBuilder.toString();
-    }
-
-    private Tracking removeAndSaveTrackingStep(TrackingStep trackingStep, Tracking tracking) {
-        trackingStep.setTracking(tracking);
-        tracking.getTrackingSteps().add(this.trackingStepService.save(trackingStep));
-//        tracking = this.save(tracking);
-        return tracking;
     }
 }
