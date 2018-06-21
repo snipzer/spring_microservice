@@ -30,36 +30,21 @@ public class TrackingService extends BaseService<ITrackingDao, Tracking> {
     public Tracking addStep(Long idTracking, TrackingStep trackingStep) {
         Optional<Tracking> trackingOpt = this.findById(idTracking);
         if (trackingOpt.isPresent()) {
-            Tracking tracking = removeAndSaveTrackingStep(trackingStep, trackingOpt.get());
-            rabbitTemplate.convertAndSend(
-                    this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE),
-                    this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EMITER_QUEUE_NAME),
-                    createPayload(tracking)
-            );
-            return tracking;
+//            Tracking tracking = removeAndSaveTrackingStep(trackingStep, trackingOpt.get());
+//            rabbitTemplate.convertAndSend(
+//                    this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE),
+//                    this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EMITER_QUEUE_NAME),
+//                    createPayload(tracking)
+//            );
+            return new Tracking();
         } else {
             return null;
         }
     }
 
-    private Tracking removeAndSaveTrackingStep(TrackingStep trackingStep, Tracking tracking) {
-        trackingStep.setTracking(tracking);
-        tracking.getTrackingSteps().add(this.trackingStepService.save(trackingStep));
-        tracking = this.save(tracking);
-        return tracking;
-    }
 
-    private String createPayload(Tracking tracking) {
-        StringBuilder payloadBuilder = new StringBuilder();
-        payloadBuilder.append("{\"user\": {\"id\": \"");
-        payloadBuilder.append(tracking.getUserId());
-        payloadBuilder.append("\"}, \"tracking\": { ");
-        payloadBuilder.append("\"location\": \"").append(tracking.retrieveLastStep().getLieu()).append("\",");
-        payloadBuilder.append("\"productId\": \"").append(tracking.getProductId()).append("\",");
-        payloadBuilder.append("\"commandName\": \"").append(tracking.getName()).append("\"");
-        payloadBuilder.append("}}");
-        return payloadBuilder.toString();
-    }
+
+
 
     public Tracking removeStep(Long idTracking, Long idStep) {
         Optional<Tracking> trackingOpt = this.findById(idTracking);
