@@ -57,19 +57,16 @@ public class Listener {
 
         trackingStepService.save(trackingStep);
         trackingService.save(tracking);
-
         System.out.println("A new tracking is created : " + tracking.getName());
 
+        String payload = this.trackingService.createPayload(trackingTmp);
 
+        System.out.println("Sending notification on exchange: " + this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE) + "in queue :" + StringUtil.SPRING_MICRO_SUIVI_OUT);
         rabbitTemplate.convertAndSend(
                 this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE),
                 StringUtil.SPRING_MICRO_SUIVI_OUT,
-                this.trackingService.createPayload(trackingTmp)
+                payload
         );
-    }
-
-    @RabbitListener(queues = StringUtil.SPRING_MICRO_SUIVI_OUT)
-    public void receiveMessageOut(final Message message) {
-        System.out.println("QUEUE-OUT payload" +  new String (message.getBody()));
+        System.out.println("Notification send with payload: " + payload);
     }
 }
