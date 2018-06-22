@@ -15,8 +15,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Listener {
 
+    public static final String SPRING_MICRO_SUIVI_IN = "spring-micro-suivi-in";
+    public static final String SPRING_MICRO_SUIVI_OUT = "spring-micro-suivi-out";
+
     private final RabbitTemplate rabbitTemplate;
+
     private Environment environment;
+
     private TrackingStepService trackingStepService;
     private TrackingService trackingService;
 
@@ -33,7 +38,7 @@ public class Listener {
     }
 
 
-    @RabbitListener(queues = "spring-micro-suivi-in")
+    @RabbitListener(queues = SPRING_MICRO_SUIVI_IN)
     public void receiveMessageIn(final Message message) {
         System.out.println("Received message as generic: " +  new String (message.getBody()));
 
@@ -66,7 +71,7 @@ public class Listener {
         );
     }
 
-    @RabbitListener(queues = "spring-micro-suivi-out")
+    @RabbitListener(queues = SPRING_MICRO_SUIVI_OUT)
     public void receiveMessageOut(final Message message) {
         System.out.println("Received message as generic: " +  new String (message.getBody()));
     }
