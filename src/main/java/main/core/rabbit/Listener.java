@@ -62,11 +62,11 @@ public class Listener {
         String payload = this.trackingService.createPayload(trackingTmp);
 
         System.out.println("Sending notification on exchange: " + this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE) + "in queue :" + StringUtil.SPRING_MICRO_SUIVI_OUT);
-        rabbitTemplate.convertAndSend(
-                this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE),
-                StringUtil.SPRING_MICRO_SUIVI_OUT,
-                payload
-        );
+//        rabbitTemplate.convertAndSend(
+//                this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE),
+//                StringUtil.SPRING_MICRO_SUIVI_OUT,
+//                payload
+//        );
         System.out.println("Notification send with payload: " + payload);
     }
 }
