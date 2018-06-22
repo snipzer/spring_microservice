@@ -33,7 +33,7 @@ public class TrackingService extends BaseService<ITrackingDao, Tracking> {
             Tracking tracking = removeAndSaveTrackingStep(trackingStep, trackingOpt.get());
             rabbitTemplate.convertAndSend(
                     this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EXCHANGE),
-                    this.environment.getProperty(StringUtil.SPRING_RABBITMQ_TEMPLATE_EMITER_QUEUE_NAME),
+                    "spring-micro-suivi-out",
                     createPayload(tracking)
             );
             return new Tracking();
