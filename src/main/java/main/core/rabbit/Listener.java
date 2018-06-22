@@ -37,7 +37,7 @@ public class Listener {
 
     @RabbitListener(queues = StringUtil.SPRING_MICRO_SUIVI_IN)
     public void receiveMessageIn(final Message message) {
-        System.out.println("Received message as generic: " +  new String (message.getBody()));
+        System.out.println("QUEUE-IN payload :" +  new String (message.getBody()));
 
         Gson g = new Gson();
 
@@ -58,7 +58,7 @@ public class Listener {
         trackingStepService.save(trackingStep);
         trackingService.save(tracking);
 
-        System.out.println("A new tracking is created : " + tracking);
+        System.out.println("A new tracking is created : " + tracking.getName());
 
 
         rabbitTemplate.convertAndSend(
@@ -70,6 +70,6 @@ public class Listener {
 
     @RabbitListener(queues = StringUtil.SPRING_MICRO_SUIVI_OUT)
     public void receiveMessageOut(final Message message) {
-        System.out.println("Received message as generic: " +  new String (message.getBody()));
+        System.out.println("QUEUE-OUT payload" +  new String (message.getBody()));
     }
 }
